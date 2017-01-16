@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="classList">
+	<select id="grade" resultType="java.util.HashMap">
+		select * from grade order by grade asc
+	</select>
+	<select id="classList" resultType="java.util.HashMap">
+		select * from class order by class asc
+	</select>
+	<select id="className" resultType="java.util.HashMap">
+		select * from className order by className asc
+	</select>
+	<select id="teacher" resultType="java.util.HashMap">
+		select * from teacher order by teacher asc
+	</select>
+	<select id="price" resultType="java.util.HashMap">
+		select * from price order by price asc
+	</select>
+	<select id="subject" resultType="java.util.HashMap">
+		select * from subject order by subject asc
+	</select>
+	<select id="book" resultType="java.util.HashMap">
+		select * from book where subject = #{subject} or subject = '공통' order by book asc
+	</select>
+	<select id="process" resultType="java.util.HashMap">
+		select * from process where subject = #{subject} order by process asc
+	</select>
+	<select id="bookAll" resultType="java.util.HashMap">
+		select * from book order by book asc
+	</select>
+	<select id="processAll" resultType="java.util.HashMap">
+		select * from process order by process asc
+	</select>
+	<insert id="gradeAdd">
+		insert into grade values(#{grade})
+	</insert>
+	<insert id="classListAdd">
+		insert into class values(#{classList})
+	</insert>
+	<insert id="classNameAdd">
+		insert into className values(#{className})
+	</insert>
+	<insert id="teacherAdd">
+		insert into teacher values(#{teacher})
+	</insert>
+	<insert id="priceAdd">
+		insert into price values(#{price})
+	</insert>
+	<insert id="subjectAdd">
+		insert into subject values(#{subject})
+	</insert>
+	<insert id="bookAdd" parameterType="java.util.HashMap">
+		insert into book values(#{name}, #{subject})
+	</insert>
+	<insert id="processAdd" parameterType="java.util.HashMap">
+		insert into process values(#{name}, #{subject})
+	</insert>
+	<delete id="gradeDel">
+		delete from grade where grade = #{grade}
+	</delete>
+	<delete id="classListDel">
+		delete from class where class = #{class}
+	</delete>
+	<delete id="classNameDel">
+		delete from className where className = #{className}
+	</delete>
+	<delete id="teacherDel">
+		delete from teacher where teacher = #{teacher}
+	</delete>
+	<delete id="priceDel">
+		delete from price where price = #{price}
+	</delete>
+	<delete id="subjectDel">
+		delete from subject where subject = #{subject}
+	</delete>
+	<delete id="bookDel">
+		delete from book where book = #{name} and subject = #{subject}
+	</delete>
+	<delete id="processDel">
+		delete from process where process = #{name} and subject = #{subject}
+	</delete>
+	<update id="gradeMod" parameterType="java.util.HashMap">
+		update grade set grade = #{newName} where grade = #{name}
+	</update>
+	<update id="classListMod" parameterType="java.util.HashMap">
+		update class set class = #{newName} where class = #{name}
+	</update>
+	<update id="classNameMod" parameterType="java.util.HashMap">
+		update className set className = #{newName} where className = #{name}
+	</update>
+	<update id="teacherMod" parameterType="java.util.HashMap">
+		update teacher set teacher = #{newName} where teacher = #{name}
+	</update>
+	<update id="priceMod" parameterType="java.util.HashMap">
+		update price set price = #{newName} where price = #{name}
+	</update>
+	<update id="subjectMod" parameterType="java.util.HashMap">
+		update subject set subject = #{newName} where subject = #{name}
+	</update>
+	<update id="bookMod" parameterType="java.util.HashMap">
+		update book set book = #{newName} where book = #{name} and subject = #{subject}
+	</update>
+	<update id="processMod" parameterType="java.util.HashMap">
+		update process set process = #{newName} where process = #{name} and subject = #{subject}
+	</update>
+</mapper>
