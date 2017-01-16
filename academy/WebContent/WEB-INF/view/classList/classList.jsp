@@ -23,7 +23,7 @@
 			</c:forEach>
 		</select>&nbsp;&nbsp;
 		<input type="button" class="w3-btn w3-dark-gray" value="확인" onclick="search()"/><br/><br/>
-		<table style="width: 80%" class="w3-table-all w3-hoverable w3-centered">
+		<table style="width: 80%" class="w3-table w3-bordered w3-centered">
 			<thead>
 				<tr>
 					<td style="background-color: #33c0a3; width: 7%" align="center">
@@ -129,8 +129,32 @@
 		}
 	}
 	
+	var className = "";
 	// 수정
 	function modify(element){
-		
+		var id = element.id;
+		id = id.substring(id.indexOf("y")+1);
+		className = $("#className"+id).val();
+		$("#modify"+id).hide();
+		$("#delete"+id).hide();
+		$("#finish"+id).hide();
+		$("#save"+id).show();
+		$("#cancel"+id).show();
+		$("#className"+id).prop("readonly", false);
+		document.getElementById("className"+id).style.border = "solid red 1px";
+	}
+	
+	// 취소
+	function cancel(element){
+		var id = element.id;
+		id = id.substring(id.indexOf("l")+1);
+		$("#modify"+id).show();
+		$("#delete"+id).show();
+		$("#finish"+id).show();
+		$("#save"+id).hide();
+		$("#cancel"+id).hide();
+		$("#className"+id).prop("readonly", true);
+		$("#className"+id).val(className);
+		document.getElementById("className"+id).style.border = "0px";
 	}
 </script>
