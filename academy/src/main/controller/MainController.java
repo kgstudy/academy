@@ -40,6 +40,7 @@ public class MainController {
 //		mav.addObject("process", ms.process());
 //		mav.addObject("book", ms.book());
 		mav.addObject("studyList", ms.studyList());
+		mav.addObject("modifyList", ms.modifyList());
 		return mav;
 	}
 }

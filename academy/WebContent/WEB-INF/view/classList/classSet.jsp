@@ -107,7 +107,7 @@
 	</div>
 </div>
 
-<div class="w3-modal" id="delModal" style="color: #e7e7e7; padding-top: 20%; display: none" align="center">
+<div class="w3-modal" id="delModal" style="color: #e7e7e7; padding-top: 200px; display: none" align="center">
 	<div style="width: 300px; background-color: white; border-radius: 10px; padding-bottom: 10px" align="center">
 		<label><font style="color: blue; font-size: 20px">삭제하시겠습니까?</font></label><br/>
 		<input type="button" class="w3-btn w3-black" value="삭제" onclick="delCommit()"/>&nbsp;
@@ -115,14 +115,14 @@
 	</div>
 </div>
 
-<div class="w3-modal" id="delEndModal" style="color: #e7e7e7; padding-top: 20%; display: none" align="center">
-	<div style="width: 300px; background-color: white; border-radius: 10px; padding-bottom: 10px" align="center">
+<div class="w3-modal" id="delEndModal" style="color: #e7e7e7; padding-top: 200px; display: none" align="center">
+	<div style="width: 300px; background-color: white; border-radius: 10px; padding-bottom: 10px; padding-top: 10px" align="center">
 		<label><font style="color: blue; font-size: 20px">삭제되었습니다.</font></label><br/>
 	</div>
 </div>
 
-<div class="w3-modal" id="modEndModal" style="color: #e7e7e7; padding-top: 20%; display: none" align="center">
-	<div style="width: 300px; background-color: white; border-radius: 10px; padding-bottom: 10px" align="center">
+<div class="w3-modal" id="modEndModal" style="color: #e7e7e7; padding-top: 200px; display: none" align="center">
+	<div style="width: 300px; background-color: white; border-radius: 10px; padding-bottom: 10px; padding-top: 10px" align="center">
 		<label><font style="color: blue; font-size: 20px">수정되었습니다.</font></label><br/>
 	</div>
 </div>

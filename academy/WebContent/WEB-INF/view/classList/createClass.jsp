@@ -163,13 +163,14 @@
 		</div><br/>
 		<div class="w3-row" align="center">
 			<input type="button" class="w3-btn w3-dark-gray" value="저장" id="save"/>&nbsp;&nbsp;
-			<input type="button" class="w3-btn w3-dark-gray" value="취소" onclick="location.href='/classList'"/>
+			<input type="button" class="w3-btn w3-dark-gray" value="취소" onclick="location.href='/classList'"/><br/>
+			<div style="margin-top: 10px"><font style="color: red; display: none" id="error"></font></div>
 		</div>
 	</div>
 </div>
 
-<div class="w3-modal" id="createEndModal" style="color: #e7e7e7; padding-top: 20%; display: none" align="center">
-	<div style="width: 300px; background-color: white; border-radius: 10px; padding-bottom: 10px" align="center">
+<div class="w3-modal" id="createEndModal" style="color: #e7e7e7; padding-top: 200px; display: none" align="center">
+	<div style="width: 300px; background-color: white; border-radius: 10px; padding-bottom: 10px; padding-top: 10px" align="center">
 		<label><font style="color: blue; font-size: 20px">저장되었습니다.</font></label><br/>
 	</div>
 </div>
@@ -241,8 +242,8 @@
 		}
 	});
 	
-	var num = 0;
 	// 교재 + 선택
+	var num = 0;
 	function plus_(){
 		var subject = $("#subject").val();
 		$.ajax({
@@ -273,24 +274,21 @@
 		}
 	}
 	
+	// 저장클릭
 	var arday = new Array($("#day"));
 	var arstartH = new Array($("#startH"));
 	var arstartM = new Array($("#startM"));
 	var arendH = new Array($("#endH"));
 	var arendM = new Array($("#endM"));
 	var arbook = new Array($("#book"));
-	// 저장클릭
 	$("#save").click(function(){
-		arChange(arday);
-		arChange(arstartH);
-		arChange(arstartM);
-		arChange(arendH);
-		arChange(arendM);
-		arChange(arbook);
 		var className = $("#className").val();
 		var grade = $("#grade").val();
 		var classList = $("#classList").val();
 		var teacher = $("#teacher").val();
+		if(teacher=="직접입력"){
+			teacher = $("#teacherInput").val();
+		}
 		var price = $("#price").val();
 		var special = $("#special").val();
 		var process = $("#process").val();
@@ -300,27 +298,51 @@
 			process = $("#processInput").val();
 		}
 		var subject = $("#subject").val();
-		var url = "/class/save/"+className+"/"+grade+"/"+classList+"/"+teacher+"/"+price+"/"+arday+"/"+arstartH+"/"+arstartM+"/"+arendH+"/"+arendM+"/"+process+"/"+arbook+"/"+special+"/"+subject+"/"+startDate+"/"+endDate;
 		var a = isChoose(arday);
 		var b = isChoose(arstartH);
 		var c = isChoose(arstartM);
 		var d = isChoose(arendH);
 		var e = isChoose(arendM);
 		var g = isChoose(arbook);
-		if(className!="선택" && grade!="선택" && classList!="선택" && teacher!="선택" && price!="선택"){
-			if(a && b && c && d && e && g){
-				$.ajax({
-					type : "post",
-					url : url,
-					async : false,
-					success : function(txt){
-						$("#createEndModal").fadeIn(500);
-						setTimeout(function() {
-							location.href="/class/create";
-						}, 700);
+		if(startDate!="" && endDate!=""){
+			if(className!="선택" && grade!="선택" && classList!="선택" && teacher!="선택" && price!="선택" && process!="선택"){
+				if(a && b && c && d && e && g){
+					if(special!=""){
+						arChange(arday);
+						arChange(arstartH);
+						arChange(arstartM);
+						arChange(arendH);
+						arChange(arendM);
+						arChange(arbook);
+						var url = "/class/save/"+className+"/"+grade+"/"+classList+"/"+teacher+"/"+price+"/"+arday+"/"
+										+arstartH+"/"+arstartM+"/"+arendH+"/"+arendM+"/"+process+"/"+arbook+"/"+special+"/"+subject+"/"
+										+startDate+"/"+endDate;
+						$.ajax({
+							type : "post",
+							url : url,
+							async : false,
+							success : function(txt){
+								$("#createEndModal").fadeIn(500);
+								setTimeout(function() {
+									location.href="/class/create";
+								}, 700);
+							}
+						});
+					} else {
+						$("#error").html("특징을 입력해 주세요..");
+						$("#error").show();
 					}
-				});
+				} else {
+					$("#error").html("선택하지 않은 항목이 있습니다.");
+					$("#error").show();
+				}
+			} else {
+				$("#error").html("선택하지 않은 항목이 있습니다.");
+				$("#error").show();
 			}
+		} else {
+			$("#error").html("선택하지 않은 항목이 있습니다.");
+			$("#error").show();
 		}
 	});
 	

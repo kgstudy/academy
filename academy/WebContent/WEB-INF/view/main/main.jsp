@@ -63,7 +63,8 @@
 				<td align="center">
 					<div>
 						<label>검색</label>&nbsp;
-						<input type="text" id="search" style="width: 70%; padding-left: 10px"/><br/><br/>
+						<input type="text" id="search" style="width: 70%; padding-left: 10px"/><br/>
+						<font style="color: red; display: none" id="noSearch">검색할 이름을 입력해주세요.</font><br/>
 						<div style="border: solid gray 1px; width: 90%" align="center">
 							<label><b>신규</b></label>&nbsp;00명<br/>
 							<label><b>퇴원</b></label>&nbsp;00명<br/>
@@ -225,9 +226,22 @@
 	</div>
 </div>
 
-<div class="w3-modal" id="endModal" style="color: #e7e7e7; padding-top: 20%; display: none" align="center">
-	<div style="width: 300px; background-color: white; border-radius: 10px" align="center">
+<div class="w3-modal" id="endModal" style="color: #e7e7e7; padding-top: 200px; display: none" align="center">
+	<div style="width: 300px; background-color: white; border-radius: 10px; padding-top: 10px; padding-bottom: 10px" align="center">
 		<label><font style="color: blue; font-size: 20px">가입되었습니다.</font></label>
+	</div>
+</div>
+
+<div class="w3-modal" id="loginModal" style="color: #e7e7e7; padding-top: 200px; display: none" align="center">
+	<div style="width: 300px; background-color: white; border-radius: 10px; padding-top: 10px; padding-bottom: 10px" align="center">
+		<label><font style="color: blue; font-size: 20px">로그인 후 이용해주세요.</font></label>
+	</div>
+</div>
+
+<div class="w3-modal" id="viewStudentModal" style="color: #e7e7e7; padding-top: 50px; display: none" align="center">
+	<div style="width: 70%; background-color: white; border-radius: 10px; padding-top: 20px; padding-bottom: 10px; padding-left: 5%; padding-right: 5%" align="center">
+		<label><font style="color: blue; font-size: 22px"><b>학생정보</b></font></label><br/><br/>
+		<div id="studentInfo" align="left" style="max-height: 900px; overflow-y: auto"></div>
 	</div>
 </div>
 
@@ -374,11 +388,42 @@
 	
 	// 신규상담 버튼클릭
 	function consult(){
-		location.href="/consult";
+		if(${login!=null}){
+			location.href="/consult";
+		} else {
+			$("#loginModal").fadeIn(500).delay(700).fadeOut(500);
+		}
 	}
 	
 	// 수강반 현황 클릭
 	$("#classList").click(function(){
-		location.href="/classList";
+		if(${login!=null}){
+			location.href="/classList";
+		} else {
+			$("#loginModal").fadeIn(500).delay(700).fadeOut(500);
+		}
+	});
+	
+	// 검색창에서 엔터
+	$("#search").keyup(function(txt){
+		var name = $("#search").val();
+		if(txt.keyCode==13){
+			if(name!=""){
+				$.ajax({
+					type : "post",
+					url : "/student/search/"+name,
+					async : false,
+					success : function(txt){
+						$("#searchStudentModal").fadeIn(500);
+						$("#studentInfo").html(txt);
+					}
+				});
+				$("#viewStudentModal").fadeIn(500);
+				$("#noSearch").hide();
+				$("#search").val("");
+			} else {
+				$("#noSearch").show();
+			}
+		}
 	});
 </script>

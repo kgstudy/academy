@@ -1,5 +1,6 @@
 package classList.service;
 
+import java.text.*;
 import java.util.*;
 
 import javax.servlet.http.*;
@@ -170,5 +171,104 @@ public class ClassListService {
 		}
 		ss.close();
 		return list;
+	}
+	
+	// 수강반 수정
+	public boolean studyMod(String cn, String gr, String cl, String te, String pr, String da, String st, String et, String pro, String bo, int num){
+		SqlSession ss = fac.openSession();
+		HashMap map = new HashMap();
+		map.put("cn", cn);
+		map.put("gr", gr);
+		map.put("cl", cl);
+		map.put("te", te);
+		map.put("pr", pr);
+		map.put("da", da);
+		map.put("st", st);
+		map.put("et", et);
+		map.put("pro", pro);
+		map.put("bo", bo);
+		map.put("num", num);
+		int a = ss.update("study.modifyCn", map);
+		int b = ss.update("study.modifyGr", map);
+		int c = ss.update("study.modifyCl", map);
+		int d = ss.update("study.modifyTe", map);
+		int e = ss.update("study.modifyPr", map);
+		int f = ss.update("study.modifySt", map);
+		int g = ss.update("study.modifyEt", map);
+		int h = ss.update("study.modifyPro", map);
+		int i = ss.update("study.modifyBo", map);
+		if(a+b+c+d+e+f+g+h+i>0){
+			ss.commit();
+			ss.close();
+			return true;
+		}
+		ss.rollback();
+		ss.close();
+		return false;
+	}
+	
+	// 수강반 수정 이력
+	public boolean studyMod2(String before, String after, int num){
+		SqlSession ss = fac.openSession();
+		HashMap map = new HashMap();
+		map.put("before", before);
+		map.put("after", after);
+		map.put("studyNum", num);
+		try{
+			ss.insert("study.studyModify", map);
+			ss.commit();
+			ss.close();
+			return true;
+		} catch(Exception e){
+			ss.rollback();
+			ss.close();
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	// 수정 내용 view
+	public List<HashMap> modifyView(int num){
+		SqlSession ss = fac.openSession();
+		List<HashMap> list = ss.selectList("study.modifyView", num);
+		for(int i=0; i<list.size(); i++){
+			Date date = (Date)list.get(i).get("DAY");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String day = sdf.format(date);
+			list.get(i).put("DAY", day);
+		}
+		ss.close();
+		return list;
+	}
+	
+	// 종강
+	public boolean finish(int num){
+		SqlSession ss = fac.openSession();
+		int n = ss.update("study.finish", num);
+		if(n>0){
+			ss.commit();
+			ss.close();
+			return true;
+		} else {
+			ss.rollback();
+			ss.close();
+			return false;
+		}
+	}
+	
+	// 수강반 삭제
+	public boolean deleteStudy(int num){
+		SqlSession ss = fac.openSession();
+		int n = ss.delete("study.deleteStudy", num);
+		if(n>0){
+			ss.delete("study.deleteModify", num);
+			ss.commit();
+			ss.close();
+			return true;
+		} else {
+			ss.rollback();
+			ss.close();
+			return false;
+		}
 	}
 }

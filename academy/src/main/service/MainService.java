@@ -1,5 +1,6 @@
 package main.service;
 
+import java.text.*;
 import java.util.*;
 
 import org.apache.ibatis.session.*;
@@ -71,6 +72,14 @@ public class MainService {
 	public List<HashMap> studyList(){
 		SqlSession ss = fac.openSession();
 		List<HashMap> list = ss.selectList("study.studyList");
+		ss.close();
+		return list;
+	}
+	
+	// 수강반 수정 이력
+	public List<HashMap> modifyList(){
+		SqlSession ss = fac.openSession();
+		List<HashMap> list = ss.selectList("study.modifyList");
 		ss.close();
 		return list;
 	}

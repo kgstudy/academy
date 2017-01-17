@@ -185,6 +185,55 @@ public class ClassListController {
 	public ModelAndView search(@RequestParam(name="date")String date, @RequestParam(name="subject")String subject){
 		ModelAndView mav = new ModelAndView("/classList/searchAjax.jsp");
 		mav.addObject("studyList", cls.search(date, subject));
+		mav.addObject("modifyList", ms.modifyList());
 		return mav;
+	}
+	
+	// 수강반 전체보기
+	@RequestMapping("/searchAll")
+	public ModelAndView searchAll(){
+		ModelAndView mav = new ModelAndView("/classList/searchAjax.jsp");
+		mav.addObject("studyList", ms.studyList());
+		mav.addObject("modifyList", ms.modifyList());
+		return mav;
+	}
+	
+	// 수강반 수정
+	@RequestMapping("/studyMod/{cn}/{gr}/{cl}/{te}/{pr}/{da}/{st}/{et}/{pro}/{bo}/{num}")
+	@ResponseBody
+	public boolean studyMod(@PathVariable(name="cn")String cn, @PathVariable(name="gr")String gr, @PathVariable(name="cl")String cl,
+											@PathVariable(name="te")String te, @PathVariable(name="pr")String pr, @PathVariable(name="da")String da,
+											@PathVariable(name="st")String st, @PathVariable(name="et")String et, @PathVariable(name="pro")String pro,
+											@PathVariable(name="bo")String bo, @PathVariable(name="num")int num){
+		return cls.studyMod(cn, gr, cl, te, pr, da, st, et, pro, bo, num);
+	}
+	
+	// 수강반 변경 이력
+	@RequestMapping("/studyMod2/{before}/{after}/{studyNum}")
+	@ResponseBody
+	public boolean studyMod2(@PathVariable(name="before")String before, @PathVariable(name="after")String after, @PathVariable(name="studyNum")int num){
+		return cls.studyMod2(before, after, num);
+	}
+	
+	// 수정 내용 view
+	@RequestMapping("/modifyView/{num}")
+	public ModelAndView modifyView(@PathVariable(name="num")int num){
+		ModelAndView mav = new ModelAndView("/classList/modifyAjax.jsp");
+		mav.addObject("view", cls.modifyView(num));
+		return mav;
+	}
+	
+	// 종강
+	@RequestMapping("/finish/{num}")
+	@ResponseBody
+	public boolean finish(@PathVariable(name="num")int num){
+		return cls.finish(num);
+	}
+	
+	// 수강반 삭제
+	@RequestMapping("/deleteStudy/{num}")
+	@ResponseBody
+	public boolean deleteStudy(@PathVariable(name="num")int num){
+		return cls.deleteStudy(num);
 	}
 }
